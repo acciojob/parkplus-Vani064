@@ -3,7 +3,6 @@ package com.driver.services.impl;
 import com.driver.model.Payment;
 import com.driver.model.PaymentMode;
 import com.driver.model.Reservation;
-import com.driver.model.Spot;
 import com.driver.repository.PaymentRepository;
 import com.driver.repository.ReservationRepository;
 import com.driver.services.PaymentService;
@@ -25,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new Exception("Insufficient Amount");
         }
 
-        Payment payment = reservation.getPayment();
+        Payment payment = new Payment();
         String mode1 = mode.toUpperCase();
         if(mode1.equals("CASH"))
         {

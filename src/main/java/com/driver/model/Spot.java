@@ -1,5 +1,7 @@
 package com.driver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Spot {
     private int id;
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private ParkingLot parkingLot;
 
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
