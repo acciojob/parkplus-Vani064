@@ -80,8 +80,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setSpot(finalspot);
         reservation.setUser(user);
 
-        user.getReservationList().add(reservation);;
-        finalspot.getReservationList().add(reservation);;
+        user.getReservationList().add(reservation);
+        finalspot.getReservationList().add(reservation);
         finalspot.setOccupied(true);
 
         userRepository3.save(user);
