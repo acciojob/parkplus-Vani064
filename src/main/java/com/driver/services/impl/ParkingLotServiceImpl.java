@@ -49,8 +49,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         newSpot.setReservationList(reservationList);
         newSpot.setParkingLot(parkingLot);
         parkingLot.getSpotList().add(newSpot);
-        //saving parent here gives infinite recursions
-        return spotRepository1.save(newSpot);
+        parkingLotRepository1.save(parkingLot)
+        return newSpot;
     }
 
     @Override
