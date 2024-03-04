@@ -23,6 +23,67 @@ public class ReservationServiceImpl implements ReservationService {
     ParkingLotRepository parkingLotRepository3;
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
+        Reservation reservation = new Reservation();
+        ParkingLot parkingLot=parkingLotRepository3.findById(parkingLotId).get();
+        if(parkingLot == null){
+            throw new Exception("Cannot make reservation");
+        }
+        User user = userRepository3.findById(userId).get();
+        if(user == null){
+            throw new Exception("Cannot make reservation");
+        }
+        List<Spot> spotList = parkingLot.getSpotList();
+        Spot finalspot=null;
+        int min=Integer.MAX_VALUE;
+        for(Spot spot:spotList)
+        {
+            if(spot.getOccupied())
+            {
+                continue;
+            }
+            if(numberOfWheels>4 && spot.getSpotType() == SpotType.OTHERS)
+            {
 
+                if(min > spot.getPricePerHour()*timeInHours)
+               {
+                   min = spot.getPricePerHour()*timeInHours;
+                   finalspot = spot;
+               }
+            }
+            else if(numberOfWheels>2 && spot.getSpotType()==SpotType.FOUR_WHEELER)
+            {
+
+                if(min > spot.getPricePerHour()*timeInHours)
+                {
+                    min = spot.getPricePerHour()*timeInHours;
+                    finalspot = spot;
+                }
+            }
+            else{
+
+                if(min > spot.getPricePerHour()*timeInHours)
+                {
+                    min = spot.getPricePerHour()*timeInHours;
+                    finalspot = spot;
+                }
+            }
+
+        }
+        if(finalspot == null)
+        {
+            throw new Exception("Cannot make reservation");
+        }
+        reservation.setNumberOfHours(timeInHours);
+        reservation.setSpot(finalspot);
+        reservation.setUser(user);
+
+        user.getReservationList().add(reservation);;
+        finalspot.getReservationList().add(reservation);;
+        finalspot.setOccupied(true);
+
+        userRepository3.save(user);
+        spotRepository3.save(finalspot);
+
+        return reservation;
     }
 }
